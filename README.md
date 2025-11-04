@@ -4,9 +4,9 @@
 
 ## 🎮 게임 종류
 
-- **BlackSwan (b)**: 경제 이벤트 예측 게임
-- **Prisoner's Dilemma (p)**: 경제 딜레마 상황 게임  
-- **Signal Decoding (s)**: 경제 신호 해석 게임
+- **BlackSwan (G1)**: 경제 이벤트 예측 게임
+- **Prisoner's Dilemma (G2)**: 경제 딜레마 상황 게임  
+- **Signal Decoding (G3)**: 경제 신호 해석 게임
 
 ## 🏗 프로젝트 구조
 
@@ -22,7 +22,8 @@ npm start       # SSR 서버 실행
 
 #### CloudFront 배포 (정적)
 ```bash
-npm run build:export  # 정적 파일 생성 (out 폴더)
+pnpm run build:export  # 정적 파일 생성 (out 폴더)
+pnpm run deploy        # 전체 배포 프로세스 (빌드 + S3 + CloudFront)
 ```
 
 ### 라우팅 구조
@@ -33,21 +34,22 @@ npm run build:export  # 정적 파일 생성 (out 폴더)
 | `app/games/g1/page.tsx`        | **g1.sedaily.ai/b**        | Black Swan 아카이브 페이지           |
 | `app/games/g1/play/page.tsx`   | **g1.sedaily.ai/b/play**   | Black Swan 최신 플레이 페이지         |
 | `app/games/g1/[date]/page.tsx` | **g1.sedaily.ai/b/[date]** | Black Swan 특정 날짜 페이지          |
-| `app/games/g2/page.tsx`        | **g1.sedaily.ai/p**        | Prisoner's Dilemma 아카이브 페이지   |
-| `app/games/g2/play/page.tsx`   | **g1.sedaily.ai/p/play**   | Prisoner's Dilemma 최신 플레이 페이지 |
-| `app/games/g2/[date]/page.tsx` | **g1.sedaily.ai/p/[date]** | Prisoner's Dilemma 특정 날짜 페이지  |
-| `app/games/g3/page.tsx`        | **g1.sedaily.ai/s**        | Signal Decoding 아카이브 페이지      |
-| `app/games/g3/play/page.tsx`   | **g1.sedaily.ai/s/play**   | Signal Decoding 최신 플레이 페이지    |
-| `app/games/g3/[date]/page.tsx` | **g1.sedaily.ai/s/[date]** | Signal Decoding 특정 날짜 페이지     |
+| `app/games/g2/page.tsx`        | **g2.sedaily.ai/p**        | Prisoner's Dilemma 아카이브 페이지   |
+| `app/games/g2/play/page.tsx`   | **g2.sedaily.ai/p/play**   | Prisoner's Dilemma 최신 플레이 페이지 |
+| `app/games/g2/[date]/page.tsx` | **g2.sedaily.ai/p/[date]** | Prisoner's Dilemma 특정 날짜 페이지  |
+| `app/games/g3/page.tsx`        | **g3.sedaily.ai/s**        | Signal Decoding 아카이브 페이지      |
+| `app/games/g3/play/page.tsx`   | **g3.sedaily.ai/s/play**   | Signal Decoding 최신 플레이 페이지    |
+| `app/games/g3/[date]/page.tsx` | **g3.sedaily.ai/s/[date]** | Signal Decoding 특정 날짜 페이지     |
 
 ## 🔧 기술 스택
 
 - **Framework**: Next.js 15.2.4 (App Router)
-- **Frontend**: React 19, TypeScript
-- **Styling**: Tailwind CSS 4.1.9, Framer Motion
-- **UI Components**: Radix UI
+- **Frontend**: React 19, TypeScript 5.9.3
+- **Styling**: Tailwind CSS 4.1.16, Framer Motion
+- **UI Components**: Radix UI (shadcn/ui)
 - **Deployment**: AWS CloudFront + S3
 - **Build**: 하이브리드 (SSR + Static Export)
+- **Package Manager**: pnpm
 
 ## 📁 주요 디렉토리
 
@@ -84,6 +86,7 @@ pnpm start        # SSR 서버 실행
 ### CloudFront 배포 (정적)
 ```bash
 pnpm run build:export    # 정적 파일 생성 (out 폴더)
+pnpm run deploy          # 전체 배포 (빌드 + S3 + CloudFront)
 ```
 
 **빌드 프로세스:**
@@ -95,21 +98,20 @@ pnpm run build:export    # 정적 파일 생성 (out 폴더)
 
 ### AWS 배포
 ```bash
-# S3 업로드
-aws s3 sync ./out s3://news-games-frontend --delete
+# S3 업로드 (자동화됨)
+pnpm run deploy:s3
 
-# CloudFront 캐시 무효화
-aws cloudfront create-invalidation --distribution-id YOUR_ID --paths "/*"
+# CloudFront 캐시 무효화 (자동화됨)
+pnpm run deploy:cloudfront
+
+# 전체 배포 프로세스
+pnpm run deploy
 ```
 
-**필요 설정:**
-- S3 버킷: `news-games-frontend`
-- CloudFront 배포
-- GitHub Secrets (자동 배포용)
-  - `AWS_ACCESS_KEY_ID`
-  - `AWS_SECRET_ACCESS_KEY`
-  - `S3_BUCKET_NAME`
-  - `CLOUDFRONT_DISTRIBUTION_ID`
+**환경 설정:**
+- S3 버킷: 환경에 따라 다름
+- CloudFront 배포 ID: 환경변수 설정 필요
+- AWS CLI 인증 설정 필요
 
 ## 📊 성능 최적화
 
@@ -117,12 +119,20 @@ aws cloudfront create-invalidation --distribution-id YOUR_ID --paths "/*"
 - **이미지**: WebP 포맷 사용, 최적화된 크기
 - **캐싱**: 정적 리소스 1년, 페이지 1시간
 - **코드 분할**: 페이지별 자동 스플리팅
+- **로딩 시스템**: Route-level 통합 로딩 (GameLoadingScreen)
+- **CSS 최적화**: Tailwind CSS v4 클래스 사용
+- **콘솔 로그**: 프로덕션 환경에서 제거됨
 
 ## 🎯 게임 특징
 
 ### 상태 관리
 - **[date] 페이지**: 진행 상태 localStorage 저장 (실수 방지)
 - **play 페이지**: 상태 저장 안함 (매번 새로 시작, 연습용)
+
+### 게임별 특징
+- **BlackSwan (G1)**: 파란색 테마, 경제 위기 시나리오
+- **Prisoner's Dilemma (G2)**: 주황색 테마, 게임 이론 기반
+- **Signal Decoding (G3)**: 보라색 테마, 시장 신호 분석
 
 ### 반응형 디자인
 - 모바일, 태블릿, 데스크톱 지원
@@ -134,12 +144,12 @@ aws cloudfront create-invalidation --distribution-id YOUR_ID --paths "/*"
 ### 환경 설정
 `.env.local` 파일에 Lambda API Gateway URL 설정:
 ```env
-NEXT_PUBLIC_QUIZ_SAVE_URL=https://your-api-id.execute-api.us-east-1.amazonaws.com/prod/quizzes
+NEXT_PUBLIC_QUIZ_SAVE_URL=https://your-api-gateway-url.amazonaws.com/prod/quizzes
 ```
 
 ### 사용 방법
 1. `/admin/quiz` 접속 후 비밀번호 입력
-2. 날짜 및 게임 테마 선택
+2. 날짜 및 게임 테마 선택 (BlackSwan/PrisonersDilemma/SignalDecoding)
 3. 문제 작성 (객관식/주관식)
 4. 저장 → 2초 후 자동 초기화 → 다음 문제 작성 가능
 
@@ -153,8 +163,19 @@ NEXT_PUBLIC_QUIZ_SAVE_URL=https://your-api-id.execute-api.us-east-1.amazonaws.co
 - **객관식**: 선택지 2~6개, 정답 선택
 - **주관식**: 정답 텍스트
 
+### 지원되는 태그
+- 증권, 부동산, 경제·금융, 산업, 정치, 사회, 국제, 오피니언
+
 ---
 
 **🔗 관련 링크**
-- [메인 사이트](https://gi.sedaily.ai)
-- [게임 포털](https://g1.sedaily.ai)
+- [메인 게임 허브](https://gi.sedaily.ai)
+- [BlackSwan 게임](https://g1.sedaily.ai)
+- [Prisoner's Dilemma 게임](https://g2.sedaily.ai)  
+- [Signal Decoding 게임](https://g3.sedaily.ai)
+
+**🛠️ 최근 업데이트**
+- ✅ 통합 로딩 시스템 구현 (GameLoadingScreen)
+- ✅ Tailwind CSS v4 최적화 완료
+- ✅ 프로덕션 console.log 정리 완료
+- ✅ 코드 구조 리팩토링 진행 중

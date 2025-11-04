@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { UniversalQuizPlayer } from "@/components/games/UniversalQuizPlayer"
 import { getQuestionsForDate, type Question } from "@/lib/games-data"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, Loader2 } from "lucide-react"
+import { AlertCircle } from "lucide-react"
 
 type Props = {
   date: string
@@ -52,10 +52,9 @@ function normalizeDate(date: string): string | null {
 }
 
 export default function DateQuizClient({ date }: Props) {
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [normalizedDate, setNormalizedDate] = useState<string | null>(null)
   const [questions, setQuestions] = useState<Question[]>([])
+  const [error, setError] = useState<string>("")
+  const [normalizedDate, setNormalizedDate] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadQuiz() {
@@ -63,7 +62,6 @@ export default function DateQuizClient({ date }: Props) {
         const normalized = normalizeDate(date)
         if (!normalized) {
           setError("잘못된 날짜 형식입니다.")
-          setLoading(false)
           return
         }
         setNormalizedDate(normalized)
@@ -73,33 +71,10 @@ export default function DateQuizClient({ date }: Props) {
       } catch (err) {
         console.error("[v0] Error loading date quiz:", err)
         setError("퀴즈를 불러오는데 실패했습니다.")
-      } finally {
-        setLoading(false)
       }
     }
     loadQuiz()
   }, [date])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen relative">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('/backgrounds/g3-signal-waves.png')",
-          }}
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-[#E89482]/70 via-[#F0D2C0]/65 to-[#F0D2C0]/70" />
-
-        <div className="flex items-center justify-center min-h-screen relative z-10">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="h-12 w-12 animate-spin text-[#184E77]" aria-hidden="true" />
-            <p className="text-lg text-[#184E77] korean-text">퀴즈를 불러오는 중...</p>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   if (error || !normalizedDate) {
     return (

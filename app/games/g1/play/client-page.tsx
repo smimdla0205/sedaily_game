@@ -42,7 +42,7 @@ export default function G1TestClientPage() {
           }}
         />
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#102C55]/60 via-[#1E3A8A]/50 to-[#2B4B8A]/60" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#102C55]/60 via-[#1E3A8A]/50 to-[#2B4B8A]/60" />
 
         <div className="container mx-auto px-4 py-8">
           <Alert variant="destructive">
@@ -64,7 +64,7 @@ export default function G1TestClientPage() {
           }}
         />
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#102C55]/60 via-[#1E3A8A]/50 to-[#2B4B8A]/60" />
+        <div className="absolute inset-0 bg-linear-to-b from-[#102C55]/60 via-[#1E3A8A]/50 to-[#2B4B8A]/60" />
 
         <div className="container mx-auto px-4 py-8">
           <Alert>
@@ -85,7 +85,8 @@ export default function G1TestClientPage() {
         }}
       />
       {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#102C55]/60 via-[#1E3A8A]/50 to-[#2B4B8A]/60" />
+            {/* Background overlay */}
+      <div className="absolute inset-0 bg-linear-to-b from-[#102C55]/60 via-[#1E3A8A]/50 to-[#2B4B8A]/60" />
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header with icon */}

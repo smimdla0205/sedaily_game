@@ -14,7 +14,7 @@ export function GameCard({ game }: GameCardProps) {
 
   return (
     <article
-      className="game-card mx-auto max-w-[460px] w-full flex flex-col rounded-2xl border-2 border-black p-6 md:p-8 transition-all duration-200 hover:translate-y-[-4px] hover:rotate-[-1.5deg] hover:shadow-[0_8px_28px_rgba(0,0,0,0.12)] relative"
+      className="game-card mx-auto max-w-[460px] w-full flex flex-col rounded-2xl border-2 border-black p-6 md:p-8 transition-all duration-200 hover:-translate-y-1 hover:rotate-[-1.5deg] hover:shadow-[0_8px_28px_rgba(0,0,0,0.12)] relative"
       style={{ backgroundColor: game.solidBgColor }}
     >
       <div className="pointer-events-none absolute inset-2 rounded-2xl border border-black/70"></div>
@@ -25,7 +25,7 @@ export function GameCard({ game }: GameCardProps) {
         </span>
       )}
 
-      <div className="aspect-[4/3] flex items-center justify-center mb-4">
+      <div className="aspect-4/3 flex items-center justify-center mb-4">
         <Image
           src={game.image || "/placeholder.svg"}
           alt={`${game.title} illustration`}

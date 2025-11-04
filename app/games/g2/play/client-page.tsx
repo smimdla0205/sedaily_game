@@ -67,7 +67,7 @@ export default function G2TestClientPage() {
         }}
       />
       {/* Light overlay to maintain beige theme */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#EFECE7]/40 via-[#E7DFD3]/35 to-[#E2DAD2]/40" />
+      <div className="absolute inset-0 bg-linear-to-r from-[#EFECE7]/40 via-[#E7DFD3]/35 to-[#E2DAD2]/40" />
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Subtle grid/lattice pattern overlay */}

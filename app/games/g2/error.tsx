@@ -10,7 +10,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
   }, [error])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-50 to-white flex items-center justify-center">
+    <div className="min-h-screen bg-linear-to-b from-stone-50 to-white flex items-center justify-center">
       <div className="text-center space-y-4 max-w-md px-4">
         <div className="text-4xl">⚠️</div>
         <h2 className="text-2xl font-bold">오류가 발생했습니다</h2>

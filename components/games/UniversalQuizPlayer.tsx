@@ -341,7 +341,7 @@ export function UniversalQuizPlayer({
                       >
                         <div className="flex items-start gap-3">
                           <span
-                            className="flex-shrink-0 w-7 h-7 border-2 flex items-center justify-center text-sm font-bold rounded-sm"
+                            className="shrink-0 w-7 h-7 border-2 flex items-center justify-center text-sm font-bold rounded-sm"
                             style={{
                               color: showResult && isCorrectOption ? "#FFFFFF" : accent.hex,
                               borderColor: accent.hex,
@@ -358,7 +358,7 @@ export function UniversalQuizPlayer({
                           </span>
                           {showResult && isCorrectOption && (
                             <CheckCircle2
-                              className="flex-shrink-0 h-5 w-5"
+                              className="shrink-0 h-5 w-5"
                               style={{ color: themeStyles.accentColor }}
                             />
                           )}
@@ -414,7 +414,7 @@ export function UniversalQuizPlayer({
                     >
                       <div className="flex gap-2">
                         <Lightbulb
-                          className="h-5 w-5 flex-shrink-0 mt-0.5"
+                          className="h-5 w-5 shrink-0 mt-0.5"
                           style={{ color: themeStyles.accentColor }}
                         />
                         <div>
@@ -443,11 +443,11 @@ export function UniversalQuizPlayer({
                       <div className="flex gap-2">
                         {state.isCorrect ? (
                           <CheckCircle2
-                            className="h-5 w-5 flex-shrink-0 mt-0.5"
+                            className="h-5 w-5 shrink-0 mt-0.5"
                             style={{ color: themeStyles.accentColor }}
                           />
                         ) : (
-                          <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                          <XCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
                         )}
                         <div className="flex-1">
                           <p className={`font-normal text-xs uppercase tracking-wide mb-1 ${themeStyles.inkColor}`}>

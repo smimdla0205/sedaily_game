@@ -67,7 +67,7 @@ export default function G3TestClientPage() {
         }}
       />
       {/* Coral/sand overlay for theme consistency */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#E89482]/70 via-[#F0D2C0]/65 to-[#F0D2C0]/70" />
+      <div className="absolute inset-0 bg-linear-to-b from-[#E89482]/70 via-[#F0D2C0]/65 to-[#F0D2C0]/70" />
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header with icon */}

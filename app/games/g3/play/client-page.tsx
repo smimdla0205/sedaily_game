@@ -3,13 +3,11 @@
 import { useEffect, useState } from "react"
 import { UniversalQuizPlayer } from "@/components/games/UniversalQuizPlayer"
 import { getQuestionsForDate, getMostRecentDate, type Question } from "@/lib/games-data"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Image from "next/image"
 
 export default function G3TestClientPage() {
-  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [date, setDate] = useState<string | null>(null)
   const [questions, setQuestions] = useState<Question[]>([])
@@ -20,7 +18,6 @@ export default function G3TestClientPage() {
         const recentDate = await getMostRecentDate("SignalDecoding")
         if (!recentDate) {
           setError("사용 가능한 퀴즈가 없습니다.")
-          setLoading(false)
           return
         }
         setDate(recentDate)
@@ -30,23 +27,10 @@ export default function G3TestClientPage() {
       } catch (err) {
         console.error("[v0] Error loading test quiz:", err)
         setError("퀴즈를 불러오는데 실패했습니다.")
-      } finally {
-        setLoading(false)
       }
     }
     loadQuiz()
   }, [])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen g3-bg">
-        <div className="container mx-auto px-4 py-8 space-y-4">
-          <Skeleton className="h-8 w-64 bg-white/10" />
-          <Skeleton className="h-64 w-full bg-white/10" />
-        </div>
-      </div>
-    )
-  }
 
   if (error || !date) {
     return (

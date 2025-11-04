@@ -16,13 +16,11 @@ export default function G2ArchiveClient() {
   const searchParams = useSearchParams()
   
   const [archiveData, setArchiveData] = useState<ArchiveStructure>({ years: [] })
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function loadArchive() {
       const data = await getArchiveStructure("PrisonersDilemma")
       setArchiveData(data)
-      setLoading(false)
     }
     loadArchive()
   }, [])
@@ -72,14 +70,6 @@ export default function G2ArchiveClient() {
     }
     router.replace(`/games/g2/archive?${params.toString()}`, { scroll: false })
   }, [selectedYear, selectedMonth, router])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <p className="text-muted-foreground">로딩 중...</p>
-      </div>
-    )
-  }
 
   const allDates: Array<{ date: string; year: number; month: number }> = []
   for (const yearData of archiveData.years) {

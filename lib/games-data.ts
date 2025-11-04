@@ -126,17 +126,8 @@ async function loadQuizData(): Promise<QuizDataStructure> {
     const data = await fetchQuizData()
     cachedTypedQuizData = data
     
-    console.log("[v0] Quiz data loaded:", {
-      hasData: !!data,
-      gameTypes: Object.keys(data || {}),
-      blackSwanDates: Object.keys(data?.BlackSwan || {}),
-      prisonersDilemmaDates: Object.keys(data?.PrisonersDilemma || {}),
-      signalDecodingDates: Object.keys(data?.SignalDecoding || {}),
-    })
-    
     return data
-  } catch (error) {
-    console.error("[v0] Failed to load quiz data:", error)
+  } catch {
     return {
       BlackSwan: {},
       PrisonersDilemma: {},
@@ -151,18 +142,14 @@ async function loadQuizData(): Promise<QuizDataStructure> {
 export async function getQuestionsForDate(gameType: GameType, date: string): Promise<Question[]> {
   try {
     const data = await loadQuizData()
-    console.log(`[v0] Getting questions for ${gameType} on ${date}`)
 
     if (!data || !data[gameType]) {
-      console.error(`[v0] No data found for game type: ${gameType}`)
       return []
     }
 
     const questions = data[gameType]?.[date] || []
-    console.log(`[v0] Found ${questions.length} questions for ${gameType} on ${date}`)
     return questions
-  } catch (error) {
-    console.error(`[v0] Error loading questions for ${gameType} on ${date}:`, error)
+  } catch {
     return []
   }
 }
@@ -173,19 +160,15 @@ export async function getQuestionsForDate(gameType: GameType, date: string): Pro
 export async function getAvailableDates(gameType: GameType): Promise<string[]> {
   try {
     const data = await loadQuizData()
-    console.log(`[v0] Getting available dates for ${gameType}`)
 
     if (!data || !data[gameType]) {
-      console.error(`[v0] No data found for game type: ${gameType}`)
       return []
     }
 
     const dates = Object.keys(data[gameType] || {})
-    console.log(`[v0] Found ${dates.length} dates for ${gameType}:`, dates)
     // Sort dates in descending order (newest first)
     return dates.sort((a, b) => b.localeCompare(a))
-  } catch (error) {
-    console.error(`[v0] Error loading dates for ${gameType}:`, error)
+  } catch {
     return []
   }
 }
@@ -258,7 +241,6 @@ export async function hasQuestionsForDate(gameType: GameType, date: string): Pro
 export async function getMostRecentDate(gameType: GameType): Promise<string | null> {
   const dates = await getAvailableDates(gameType)
   const mostRecent = dates.length > 0 ? dates[0] : null
-  console.log(`[v0] Most recent date for ${gameType}:`, mostRecent)
   return mostRecent
 }
 

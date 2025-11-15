@@ -15,7 +15,6 @@ type Message = {
 type AIChatbotProps = {
   gameType: "BlackSwan" | "PrisonersDilemma" | "SignalDecoding"
   questionText: string
-  isAnswered: boolean
   quizArticleUrl?: string  // RAG: 퀴즈 관련 기사 URL
 }
 

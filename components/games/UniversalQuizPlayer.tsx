@@ -470,9 +470,7 @@ export function UniversalQuizPlayer({
               <div className="pt-4">
                 <AIChatbot
                   gameType={gameType}
-                  questionIndex={questionIndex}
                   questionText={question.question}
-                  isAnswered={state.isAnswered}
                   quizArticleUrl={question.newsLink}  // RAG: 퀴즈 기사 URL 전달
                 />
               </div>

@@ -593,9 +593,7 @@ export function QuizCarousel({
                     <div className="pt-4">
                       <AIChatbot
                         gameType={gameType}
-                        questionIndex={questionIndex}
                         questionText={question.question}
-                        isAnswered={state.isAnswered}
                         quizArticleUrl={question.newsLink}
                       />
                     </div>

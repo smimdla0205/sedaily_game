@@ -79,7 +79,7 @@ export default function G3TestClientPage() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/backgrounds/g3-signal-waves.png')",
+          backgroundImage: "url('/backgrounds/g3-signal-waves.webp')",
         }}
       />
       {/* Coral/sand overlay for theme consistency */}

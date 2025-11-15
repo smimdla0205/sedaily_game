@@ -79,7 +79,7 @@ export default function G2TestClientPage() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/backgrounds/g2-silhouettes-clean.png')",
+          backgroundImage: "url('/backgrounds/g2-silhouettes-clean.webp')",
         }}
       />
       {/* Light overlay to maintain beige theme */}

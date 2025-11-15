@@ -43,7 +43,7 @@ export default function G1TestClientPage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/backgrounds/g1-swan-water.png')",
+            backgroundImage: "url('/backgrounds/g1-swan-water.webp')",
           }}
         />
         {/* Dark overlay for better text readability */}
@@ -63,7 +63,7 @@ export default function G1TestClientPage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/backgrounds/g1-swan-water.png')",
+            backgroundImage: "url('/backgrounds/g1-swan-water.webp')",
           }}
         />
         {/* Dark overlay for better text readability */}
@@ -85,7 +85,7 @@ export default function G1TestClientPage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/backgrounds/g1-swan-water.png')",
+            backgroundImage: "url('/backgrounds/g1-swan-water.webp')",
           }}
         />
         {/* Dark overlay for better text readability */}
@@ -106,7 +106,7 @@ export default function G1TestClientPage() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/backgrounds/g1-swan-water.png')",
+          backgroundImage: "url('/backgrounds/g1-swan-water.webp')",
         }}
       />
       {/* Dark overlay for better text readability */}

@@ -1,13 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { UniversalQuizPlayer } from "@/components/games/UniversalQuizPlayer"
+import { QuizCarousel } from "@/components/games/QuizCarousel"
 import { getQuestionsForDate, getMostRecentDate, type Question } from "@/lib/games-data"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Image from "next/image"
 
 export default function G3TestClientPage() {
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [date, setDate] = useState<string | null>(null)
   const [questions, setQuestions] = useState<Question[]>([])
@@ -18,6 +20,7 @@ export default function G3TestClientPage() {
         const recentDate = await getMostRecentDate("SignalDecoding")
         if (!recentDate) {
           setError("사용 가능한 퀴즈가 없습니다.")
+          setLoading(false)
           return
         }
         setDate(recentDate)
@@ -27,10 +30,23 @@ export default function G3TestClientPage() {
       } catch (err) {
         console.error("[v0] Error loading test quiz:", err)
         setError("퀴즈를 불러오는데 실패했습니다.")
+      } finally {
+        setLoading(false)
       }
     }
     loadQuiz()
   }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen g3-bg">
+        <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 space-y-4">
+          <Skeleton className="h-8 w-64 bg-white/10" />
+          <Skeleton className="h-64 w-full bg-white/10" />
+        </div>
+      </div>
+    )
+  }
 
   if (error || !date) {
     return (
@@ -67,13 +83,13 @@ export default function G3TestClientPage() {
         }}
       />
       {/* Coral/sand overlay for theme consistency */}
-      <div className="absolute inset-0 bg-linear-to-b from-[#E89482]/70 via-[#F0D2C0]/65 to-[#F0D2C0]/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#E89482]/70 via-[#F0D2C0]/65 to-[#F0D2C0]/70" />
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-3 md:px-4 py-6 md:py-8 relative z-10">
         {/* Header with icon */}
-        <div className="mb-8 text-center">
-          <div className="flex justify-center mb-4">
-            <div className="relative w-24 h-24 md:w-32 md:h-32">
+        <div className="mb-6 md:mb-8 text-center">
+          <div className="flex justify-center mb-3 md:mb-4">
+            <div className="relative w-20 h-20 md:w-32 md:h-32">
               <Image
                 src="/icons/antenna-woodcut.webp"
                 alt="Signal Antenna"
@@ -83,18 +99,22 @@ export default function G3TestClientPage() {
               />
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-[#991B1B] font-serif">시그널 디코딩</h1>
-          <p className="text-[#184E77] text-base md:text-lg font-serif max-w-2xl mx-auto">
+          <h1 className="text-2xl md:text-4xl font-bold mb-2 text-[#991B1B] font-serif">시그널 디코딩</h1>
+          <p className="text-[#184E77] text-sm md:text-lg font-serif max-w-2xl mx-auto px-4">
             뉴스 속 핵심 신호를 해독하는 퍼즐
           </p>
         </div>
 
-        <UniversalQuizPlayer 
+        <QuizCarousel 
           questions={questions} 
           date={date} 
           gameType="SignalDecoding" 
           themeColor="#184E77"
           disableSaveProgress={true}
+          showArrows={true}
+          showDots={true}
+          useFade={false}
+          loop={false}
         />
       </div>
     </div>

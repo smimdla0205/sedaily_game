@@ -23,8 +23,6 @@ const nextConfig = {
   // 실험적 기능
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-select'], // 패키지 임포트 최적화
-    // RSC 페이로드 생성 비활성화 (정적 export에서는 필요 없음)
-    after: false,
   },
 }
 

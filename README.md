@@ -2,180 +2,256 @@
 
 경제 뉴스를 기반으로 한 인터랙티브 퀴즈 게임 플랫폼입니다.
 
+[![Deploy Status](https://img.shields.io/badge/Deploy-Live-brightgreen)](https://g2.sedaily.ai)
+[![GitHub](https://img.shields.io/badge/GitHub-sedaily/g2--clone-blue)](https://github.com/sedaily/g2-clone)
+[![AWS](https://img.shields.io/badge/AWS-Lambda%20%2B%20CloudFront-orange)](https://aws.amazon.com/)
+
+**🌐 Live:** https://g2.sedaily.ai
+
 ## 🎮 게임 종류
 
-- **BlackSwan (G1)**: 경제 이벤트 예측 게임
-- **Prisoner's Dilemma (G2)**: 경제 딜레마 상황 게임  
-- **Signal Decoding (G3)**: 경제 신호 해석 게임
+### 📊 BlackSwan (g1)
+흑조 이벤트 - 예측 불가능한 경제 위기 상황을 분석하는 게임
 
-## 🏗 프로젝트 구조
+### 🤝 Prisoner's Dilemma (g2)
+죄수의 딜레마 - 경제 주체 간 전략적 의사결정 게임
 
-### 빌드 시스템
-이 프로젝트는 **하이브리드 빌드 시스템**을 사용합니다:
+### 📡 Signal Decoding (g3)
+신호 해독 - 경제 지표와 시장 신호를 해석하는 게임
 
-#### 로컬 개발 (SSR)
+## 🏗 아키텍처
+
+### Frontend
+- **Framework**: Next.js 15.2.4 (App Router)
+- **Static Export**: SSG 기반 완전 정적 사이트 생성
+- **Hosting**: AWS CloudFront + S3
+- **Domain**: https://g2.sedaily.ai
+- **Components**: QuizCarousel (Embla Carousel 기반)
+
 ```bash
-npm run dev     # 개발 서버 (http://localhost:3000)
-npm run build   # SSR 프로덕션 빌드 (.next 폴더)
-npm start       # SSR 서버 실행
+pnpm dev              # 개발 서버 (localhost:3000)
+pnpm build            # 프로덕션 빌드
+pnpm build:export     # 정적 파일 생성 (out/)
+pnpm quick-deploy     # S3 + CloudFront 배포
 ```
 
-#### CloudFront 배포 (정적)
-```bash
-pnpm run build:export  # 정적 파일 생성 (out 폴더)
-pnpm run deploy        # 전체 배포 프로세스 (빌드 + S3 + CloudFront)
-```
-
-### 라우팅 구조
-
-| Next.js 경로                     | 실제 주소                      | 역할                            |
-| ------------------------------ | -------------------------- | ----------------------------- |
-| `app/games/page.tsx`           | **gi.sedaily.ai/**         | 메인 허브 페이지 (모든 게임 진입 카드)       |
-| `app/games/g1/page.tsx`        | **g1.sedaily.ai/b**        | Black Swan 아카이브 페이지           |
-| `app/games/g1/play/page.tsx`   | **g1.sedaily.ai/b/play**   | Black Swan 최신 플레이 페이지         |
-| `app/games/g1/[date]/page.tsx` | **g1.sedaily.ai/b/[date]** | Black Swan 특정 날짜 페이지          |
-| `app/games/g2/page.tsx`        | **g2.sedaily.ai/p**        | Prisoner's Dilemma 아카이브 페이지   |
-| `app/games/g2/play/page.tsx`   | **g2.sedaily.ai/p/play**   | Prisoner's Dilemma 최신 플레이 페이지 |
-| `app/games/g2/[date]/page.tsx` | **g2.sedaily.ai/p/[date]** | Prisoner's Dilemma 특정 날짜 페이지  |
-| `app/games/g3/page.tsx`        | **g3.sedaily.ai/s**        | Signal Decoding 아카이브 페이지      |
-| `app/games/g3/play/page.tsx`   | **g3.sedaily.ai/s/play**   | Signal Decoding 최신 플레이 페이지    |
-| `app/games/g3/[date]/page.tsx` | **g3.sedaily.ai/s/[date]** | Signal Decoding 특정 날짜 페이지     |
+### Backend
+- **Lambda**: `sedaily-chatbot-dev-handler` (Python 3.11)
+- **AI**: Claude 3 Sonnet (AWS Bedrock)
+- **RAG**: BigKinds API + 퀴즈 컨텍스트
+- **API**: `/prod/quizzes/all` (전체 퀴즈 데이터)
 
 ## 🔧 기술 스택
 
-- **Framework**: Next.js 15.2.4 (App Router)
-- **Frontend**: React 19, TypeScript 5.9.3
-- **Styling**: Tailwind CSS 4.1.16, Framer Motion
-- **UI Components**: Radix UI (shadcn/ui)
-- **Deployment**: AWS CloudFront + S3
-- **Build**: 하이브리드 (SSR + Static Export)
-- **Package Manager**: pnpm
+### Frontend
+| Category | Technology |
+|----------|-----------|
+| Framework | Next.js 15.2.4 (App Router) |
+| Runtime | React 19.2.0 |
+| Language | TypeScript 5.9.3 |
+| Styling | Tailwind CSS 4.1.16 |
+| UI Components | Radix UI (25+ components) |
+| Carousel | Embla Carousel React 8.6.0 |
+| Animation | Framer Motion |
+| Package Manager | pnpm 10.15.1 |
+| State | React Hooks + localStorage |
 
-## 📁 주요 디렉토리
+### Backend
+| Category | Technology |
+|----------|-----------|
+| Serverless | AWS Lambda (Python 3.11) |
+| AI Model | Claude 3 Sonnet (Bedrock) |
+| RAG Source | BigKinds API |
+| API Gateway | AWS API Gateway |
+| Function | `sedaily-chatbot-dev-handler` |
+
+### Infrastructure
+| Category | Service |
+|----------|---------|
+| Hosting | AWS S3 (`g2-frontend-ver2`) |
+| CDN | CloudFront (E1C1UNHJ75JZMZ) |
+| Domain | g2.sedaily.ai |
+| SSL | ACM Certificate |
+| Deployment | Automated Scripts |
+
+## 📁 프로젝트 구조
 
 ```
-project/
-├── app/                    # Next.js App Router 페이지
-│   ├── admin/             # Admin 퀴즈 관리
-│   ├── games/             # 게임 관련 페이지
+g2-clone/
+├── app/                    # Next.js 15 App Router
+│   ├── admin/quiz/        # 퀴즈 관리 도구 (비밀번호 보호)
+│   ├── games/             # 게임 페이지
 │   │   ├── g1/           # BlackSwan 게임
 │   │   ├── g2/           # Prisoner's Dilemma 게임
 │   │   └── g3/           # Signal Decoding 게임
-│   └── api/               # API Routes
+│   ├── api/chat/         # 챗봇 프록시 API Routes
+│   ├── test-chatbot/     # 챗봇 테스트 페이지
+│   ├── layout.tsx        # 루트 레이아웃
+│   └── page.tsx          # 홈페이지
 ├── components/            # React 컴포넌트
-│   ├── admin/            # Admin 컴포넌트
-│   ├── games/            # 게임 전용 컴포넌트
-│   ├── navigation/       # 네비게이션 컴포넌트
-│   └── ui/              # 공통 UI 컴포넌트
-├── lib/                  # 유틸리티 함수
-├── aws/                  # AWS Lambda 함수 (Git 제외)
-├── scripts/              # 빌드 스크립트
-└── out/                  # 정적 배포 파일 (빌드 시 생성)
+│   ├── games/            # 게임 관련 컴포넌트
+│   │   ├── QuizCarousel.tsx     # 🎯 메인 퀴즈 플레이어 (Embla)
+│   │   ├── AIChatbot.tsx        # RAG 기반 AI 챗봇
+│   │   ├── GameCard.tsx         # 게임 카드
+│   │   └── UniversalQuizPlayer.tsx  # (Legacy)
+│   ├── admin/            # 관리자 컴포넌트
+│   │   ├── QuizEditor.tsx       # 퀴즈 에디터
+│   │   ├── DateSetList.tsx      # 날짜 관리
+│   │   └── PasswordModal.tsx    # 비밀번호 모달
+│   ├── ui/              # Radix UI 기반 컴포넌트 (25개+)
+│   └── navigation/       # 헤더, 푸터
+├── lib/                  # 유틸리티 라이브러리
+│   ├── quiz-api-client.ts  # AWS Lambda API 클라이언트
+│   ├── quiz-storage.ts     # localStorage 상태 관리
+│   ├── games-data.ts       # 게임 메타데이터 + 데이터 로딩
+│   ├── chatbot-api.ts      # 챗봇 API 클라이언트
+│   └── date-utils.ts       # 날짜 유틸리티
+├── backend/              # Python Lambda (Serverless)
+│   ├── lambda/
+│   │   └── enhanced-chatbot-handler.py  # RAG 기반 Claude 챗봇
+│   └── serverless.yml   # Serverless Framework 설정
+├── aws/chatbot-lambda/   # Node.js Lambda (미사용)
+│   ├── index.js         # 기본 Claude 챗봇
+│   └── package.json     # Node.js 의존성
+├── scripts/              # 배포 자동화 스크립트
+│   ├── quick-deploy.mjs # Frontend 빠른 배포
+│   ├── full-deploy.mjs  # Frontend + Backend 전체 배포
+│   └── build-export.mjs # 정적 빌드 스크립트
+├── public/              # 정적 자산
+│   ├── backgrounds/     # 게임별 배경 이미지
+│   ├── icons/          # 게임 아이콘 (woodcut 스타일)
+│   └── images/         # 로고 및 기타 이미지
+├── types/               # TypeScript 타입 정의
+└── out/                 # 정적 빌드 결과 (배포용)
 ```
 
 ## 🚀 개발 & 배포
 
-### 로컬 개발 (SSR)
+### 개발
 ```bash
 pnpm install      # 의존성 설치
-pnpm run dev      # 개발 서버 (http://localhost:3000)
-pnpm run build    # SSR 프로덕션 빌드
-pnpm start        # SSR 서버 실행
+pnpm dev          # 개발 서버 (http://localhost:3000)
 ```
 
-### CloudFront 배포 (정적)
+### 배포
 ```bash
-pnpm run build:export    # 정적 파일 생성 (out 폴더)
-pnpm run deploy          # 전체 배포 (빌드 + S3 + CloudFront)
+# Frontend 배포 (권장)
+pnpm quick-deploy     # 빌드 + S3 + CloudFront
+
+# 전체 배포 (Frontend + Backend)
+pnpm full-deploy      # Frontend + Lambda 배포
+
+# 수동 빌드
+pnpm build:export     # 정적 파일 생성 (out 폴더)
 ```
 
-**빌드 프로세스:**
-1. Config 백업 (`next.config.mjs` → `next.config.mjs.backup`)
-2. Export Config 적용 (`next.config.export.mjs` → `next.config.mjs`)
-3. 정적 빌드 실행 (`output: 'export'` 모드)
-4. Config 복원 (원본 복구)
-5. 결과: `out/` 폴더에 배포 파일 생성
+### AWS 인프라
+- **S3**: `g2-frontend-ver2` (정적 호스팅)
+- **CloudFront**: `E1C1UNHJ75JZMZ`
+- **Domain**: `g2.sedaily.ai`
+- **SSL**: ACM Certificate (`9c87fd8a-3506-4a55-86dc-03bfeb6b22d8`)
+- **Lambda**: `sedaily-chatbot-dev-handler` (Python 3.11)
+- **Bedrock**: Claude 3 Sonnet (ap-northeast-2)
+- **API Gateway**: `zetqmdpbc1.execute-api.us-east-1.amazonaws.com`
 
-### AWS 배포
-```bash
-# S3 업로드 (자동화됨)
-pnpm run deploy:s3
+## 🎯 주요 기능
 
-# CloudFront 캐시 무효화 (자동화됨)
-pnpm run deploy:cloudfront
+### QuizCarousel - 메인 퀴즈 플레이어
+- **Embla Carousel**: Fade 트랜지션 기반 문제 네비게이션
+- **답안 체크**: 실시간 정답/오답 피드백 (색상 구분)
+- **점수 추적**: localStorage 기반 진행 상태 저장
+- **키보드 단축키**: A/B/C/D 객관식 선택
+- **자동 진행**: 정답 선택 후 1초 뒤 다음 문제
+- **게임별 테마**: BlackSwan/PrisonersDilemma/SignalDecoding 색상 스타일
+- **반응형 UI**: 모바일/데스크톱 최적화
+- **마지막 문제 액션**: 다시 하기/돌아가기 버튼
 
-# 전체 배포 프로세스
-pnpm run deploy
-```
+### AI 챗봇
+- **Claude 3 Sonnet**: AWS Bedrock 기반
+- **RAG**: BigKinds API + 퀴즈 컨텍스트
+- **게임별 특화**: 
+  - BlackSwan → 위기 분석
+  - Prisoner's Dilemma → 게임이론
+  - Signal Decoding → 경제지표
+- **Fallback**: BigKinds 실패 시 순수 Claude 응답
 
-**환경 설정:**
-- S3 버킷: 환경에 따라 다름
-- CloudFront 배포 ID: 환경변수 설정 필요
-- AWS CLI 인증 설정 필요
+### 데이터 관리
+- **날짜별 퀴즈**: `/games/{g1|g2|g3}/[date]` 동적 라우트
+- **SSG**: 빌드 시 모든 날짜 페이지 사전 생성
+- **캐싱**: 5분 메모리 캐시 (quiz-api-client)
 
-## 📊 성능 최적화
+## 🛠️ 관리 도구
 
-- **번들 크기**: First Load JS 101kB
-- **이미지**: WebP 포맷 사용, 최적화된 크기
-- **캐싱**: 정적 리소스 1년, 페이지 1시간
-- **코드 분할**: 페이지별 자동 스플리팅
-- **로딩 시스템**: Route-level 통합 로딩 (GameLoadingScreen)
-- **CSS 최적화**: Tailwind CSS v4 클래스 사용
-- **콘솔 로그**: 프로덕션 환경에서 제거됨
-
-## 🎯 게임 특징
-
-### 상태 관리
-- **[date] 페이지**: 진행 상태 localStorage 저장 (실수 방지)
-- **play 페이지**: 상태 저장 안함 (매번 새로 시작, 연습용)
-
-### 게임별 특징
-- **BlackSwan (G1)**: 파란색 테마, 경제 위기 시나리오
-- **Prisoner's Dilemma (G2)**: 주황색 테마, 게임 이론 기반
-- **Signal Decoding (G3)**: 보라색 테마, 시장 신호 분석
-
-### 반응형 디자인
-- 모바일, 태블릿, 데스크톱 지원
-- Touch-friendly 인터페이스
-- 다크/라이트 모드 지원
-
-## 🎛️ Admin 퀴즈 관리
-
-### 환경 설정
-`.env.local` 파일에 Lambda API Gateway URL 설정:
-```env
-NEXT_PUBLIC_QUIZ_SAVE_URL=https://your-api-gateway-url.amazonaws.com/prod/quizzes
-```
-
-### 사용 방법
-1. `/admin/quiz` 접속 후 비밀번호 입력
-2. 날짜 및 게임 테마 선택 (BlackSwan/PrisonersDilemma/SignalDecoding)
+### Admin 퀴즈 에디터 (`/admin/quiz`)
+1. 비밀번호 인증
+2. 날짜/게임 선택
 3. 문제 작성 (객관식/주관식)
-4. 저장 → 2초 후 자동 초기화 → 다음 문제 작성 가능
+4. 자동 저장 및 초기화
 
-### Lambda 병합 로직
-- 한 문제씩 추가하면 Lambda가 자동으로 같은 날짜의 기존 문제와 병합
-- ID 기준 중복 제거/업데이트
-- 여러 문제 연속 작성 가능
+### 환경 변수
+```env
+NEXT_PUBLIC_CHATBOT_API_URL=lambda-api-url
+BIGKINDS_API_KEY=bigkinds-key
+```
 
-### 필수 입력 필드
-- **공통**: 게임 테마, 문제 유형, 질문 내용, 해설, 태그
-- **객관식**: 선택지 2~6개, 정답 선택
-- **주관식**: 정답 텍스트
+## 🔄 GitHub Actions 설정
 
-### 지원되는 태그
-- 증권, 부동산, 경제·금융, 산업, 정치, 사회, 국제, 오피니언
+자동 배포를 위해 Repository Settings → Secrets에 다음 값들을 추가하세요:
+
+```env
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=ap-northeast-2
+S3_BUCKET_NAME=g2-frontend-ver2
+CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
+```
+
+## 📊 프로젝트 현황
+
+- ✅ **Frontend**: 배포 완료 (Next.js 15.2.4)
+- ✅ **Backend**: Lambda 함수 운영 중 (`sedaily-chatbot-dev-handler`)
+- ✅ **RAG System**: BigKinds API + Claude 3 Sonnet 통합
+- ✅ **CI/CD**: GitHub Actions 자동 배포
+- ✅ **Monitoring**: CloudFront + Lambda 로그
+
+## 🚀 최근 업데이트
+
+### 2025-01-13
+- **QuizCarousel 통합**: UniversalQuizPlayer → QuizCarousel 전환
+- **Embla Carousel**: Fade 트랜지션 + 외부 화살표 네비게이션
+- **UX 개선**: 자동 진행, 키보드 단축키, 마지막 문제 액션 버튼
+- **빌드 최적화**: 29개 정적 페이지 생성 (101-166 kB First Load JS)
+
+### 2025-01-10
+- **RAG Fallback**: BigKinds API 실패 시 순수 Claude 응답
+- **Lambda 최적화**: Python 3.11, 1024MB, 60초 타임아웃
+- **도메인 설정**: g2.sedaily.ai 커스텀 도메인 연결
+
+## 📈 성능 지표
+
+- **빌드 결과**: 29개 정적 페이지
+- **First Load JS**: 101-166 kB
+- **SSG 라우트**: 12개 (날짜별 퀴즈)
+- **캐싱**: CloudFront + 5분 메모리 캐시
+
+## 🔗 링크
+
+- 🌐 **Live**: https://g2.sedaily.ai
+- 📱 **GitHub**: https://github.com/sedaily/g2-clone
+- � **BigKinds API**: https://www.bigkinds.or.kr
+
+## � 기술 스택 요약
+
+```
+Frontend: Next.js 15.2.4 + React 19 + TypeScript 5
+Styling: Tailwind CSS 4 + Radix UI + Framer Motion
+Carousel: Embla Carousel React 8.6.0
+Backend: AWS Lambda (Python 3.11)
+AI: Claude 3 Sonnet (AWS Bedrock)
+Hosting: CloudFront + S3
+Domain: g2.sedaily.ai
+```
 
 ---
 
-**🔗 관련 링크**
-- [메인 게임 허브](https://gi.sedaily.ai)
-- [BlackSwan 게임](https://g1.sedaily.ai)
-- [Prisoner's Dilemma 게임](https://g2.sedaily.ai)  
-- [Signal Decoding 게임](https://g3.sedaily.ai)
-
-**🛠️ 최근 업데이트**
-- ✅ 통합 로딩 시스템 구현 (GameLoadingScreen)
-- ✅ Tailwind CSS v4 최적화 완료
-- ✅ 프로덕션 console.log 정리 완료
-- ✅ 코드 구조 리팩토링 진행 중
+**Made with ❤️ by Seoul Economic Daily**

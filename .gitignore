@@ -16,6 +16,7 @@ package-lock.json
 .env.test.local
 .env.production.local
 .env.backup
+!.env.example
 
 # Logs
 npm-debug.log*
@@ -83,6 +84,7 @@ dist
 tmp/
 temp/
 _temp/
+._temp/
 
 # Editor directories and files
 .vscode/
@@ -110,3 +112,4 @@ backend/.serverless/
 
 # Local development
 .vercel
+

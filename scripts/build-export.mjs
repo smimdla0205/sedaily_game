@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-console.log('🚀 Building for static export...');
+console.log('[Build] Building for static export...');
 
 const originalConfig = 'next.config.mjs';
 const exportConfig = 'next.config.export.mjs';
@@ -22,7 +22,7 @@ function deleteTxtFiles(dir) {
                file.name !== 'index.txt') {
       // Only delete specific .txt files, not robots.txt or index.txt
       fs.unlinkSync(fullPath);
-      console.log(`🗑️  Deleted: ${fullPath}`);
+      console.log(`[Delete] Deleted: ${fullPath}`);
     }
   });
 }
@@ -37,17 +37,17 @@ try {
   fs.copyFileSync(exportConfig, originalConfig);
 
   // Build
-  console.log('📦 Running next build...');
+  console.log('[Info] Running next build...');
   execSync('next build', { stdio: 'inherit' });
 
   // Keep all RSC-related files (index.txt) and robots.txt
-  console.log('🧹 Cleaning up specific .txt files (keeping RSC files)...');
+  console.log('[Cleanup] Cleaning up specific .txt files (keeping RSC files)...');
   deleteTxtFiles('./out');
 
-  console.log('✅ Static export build complete! Check the /out folder.');
+  console.log('[Success] Static export build complete! Check the /out folder.');
 
 } catch (error) {
-  console.error('❌ Build failed:', error.message);
+  console.error('[Error] Build failed:', error.message);
   process.exit(1);
 } finally {
   // Restore original config

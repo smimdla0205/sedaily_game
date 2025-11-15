@@ -5,26 +5,26 @@ import { execSync } from 'child_process';
 const BUCKET_NAME = 'g2-pre-games-frontend';
 const CLOUDFRONT_ID = 'E2SSUB36GW6E6B';
 
-console.log('⚡ Quick Deploy Started...\n');
+console.log('[Deploy] Quick Deploy Started...\n');
 
 try {
   // 1. 빌드
-  console.log('📦 Building...');
+  console.log('[Build] Building...');
   execSync('pnpm run build:export', { stdio: 'inherit' });
   
   // 2. S3 업로드
-  console.log('\n📤 Uploading to S3...');
+  console.log('\n[Upload] Uploading to S3...');
   execSync(`aws s3 sync ./out s3://${BUCKET_NAME} --delete --exclude '*.txt'`, { stdio: 'inherit' });
   
   // 3. CloudFront 무효화
-  console.log('\n🔄 Invalidating CloudFront...');
+  console.log('\n[Invalidate] Invalidating CloudFront...');
   execSync(`aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"`, { stdio: 'inherit' });
   
-  console.log('\n🎉 Quick Deploy Complete!');
-  console.log(`🌐 Live at: https://pre.g.sedaily.ai`);
-  console.log(`📦 Bucket: ${BUCKET_NAME}`);
+  console.log('\n[Success] Quick Deploy Complete!');
+  console.log(`[Info] Live at: https://pre.g.sedaily.ai`);
+  console.log(`[Info] Bucket: ${BUCKET_NAME}`);
   
 } catch (error) {
-  console.error('❌ Deploy failed:', error.message);
+  console.error('[Error] Deploy failed:', error.message);
   process.exit(1);
 }

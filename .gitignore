@@ -15,8 +15,12 @@ package-lock.json
 .env.development.local
 .env.test.local
 .env.production.local
-.env.backup
 !.env.example
+!.env.backup
+
+# Backup files (모든 백업 제외, .env.backup 제외)
+*.backup
+!.env.backup
 
 # Logs
 npm-debug.log*

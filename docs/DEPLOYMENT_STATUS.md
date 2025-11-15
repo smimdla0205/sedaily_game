@@ -1,53 +1,196 @@
-# 배포 상태 (Deployment Status)
+# 배포 상태 및 설정
 
-## 🚀 현재 배포 상태
+## 현재 배포 정보
 
-### Frontend
-- ✅ **배포 완료**: CloudFront + S3
-- 🌐 **URL**: https://d37wz4zxwakwl0.cloudfront.net
-- 📦 **빌드**: Next.js 15.2.4 Static Export
-- 🔄 **캐시**: CloudFront 무효화 완료
+**Last Updated**: 2025-11-15 18:58:52 UTC
 
-### Backend
-- ✅ **Lambda 함수**: `sedaily-chatbot-dev-handler`
-- 🐍 **Runtime**: Python 3.11
-- 🧠 **AI Model**: Claude 3 Sonnet (AWS Bedrock)
-- 📍 **Region**: ap-northeast-2
-- 🔧 **Handler**: `enhanced-chatbot-handler.lambda_handler`
+### Production 환경
+| 항목 | 값 |
+|-----|-----|
+| **Domain** | https://pre.g.sedaily.ai |
+| **S3 Bucket** | g2-pre-games-frontend |
+| **CloudFront ID** | E2SSUB36GW6E6B |
+| **Region** | us-east-1 |
+| **Status** | Active |
+| **Build Type** | Static Export |
+| **Total Pages** | 28 |
 
-## 🔧 최근 업데이트 (2025-11-10)
-
-### RAG 시스템 개선
-- **BigKinds API 실패 시**: 폴백 응답 → 순수 Claude 전문 응답
-- **지능형 폴백**: 외부 지식 없이도 고품질 경제 분석 제공
-- **응답 품질**: 250-350자 전문적 분석 유지
-
-### 기술적 변경사항
-1. **Lambda 함수 업데이트**
-   - 함수명: `sedaily-chatbot-dev-handler`
-   - 핸들러: `enhanced-chatbot-handler.lambda_handler`
-   - 메모리: 1024MB, 타임아웃: 60초
-
-2. **API 엔드포인트**
-   - Region: us-east-1 → ap-northeast-2
-   - Stage: prod → dev
-
-3. **배포 스크립트 개선**
-   - `pnpm backend-deploy`: Lambda 직접 업데이트
-   - `pnpm full-deploy`: Frontend + Backend 통합 배포
-
-## 📊 RAG 아키텍처
-
-### 3단계 지식 통합
-1. **BigKinds API** (30일 경제 뉴스)
-2. **퀴즈 관련 기사** (URL 기반)
-3. **퀴즈 문제 컨텍스트** (게임별)
-
-### Intelligent Fallback
+### 마지막 배포
 ```
-BigKinds API 성공 → RAG 기반 응답
-     ↓ 실패
-순수 Claude 전문 응답 (게임별 특화)
+- 시간: 2025-11-15 18:58:52 UTC
+- 모드: 정적 빌드 + S3 업로드 + CloudFront 무효화
+- 무효화 ID: IQ0DGDIPBVQF4Y7YVPG01WVZO
+- 상태: InProgress
+- ETA: 3-5분 후 완전 반영
+```
+
+## 인프라 설정
+
+### AWS 계정 정보
+```
+Account ID: 887078546492
+IAM User: ai_nova
+Region: us-east-1 (Frontend)
+         ap-northeast-2 (Lambda)
+```
+
+### 서비스 구성
+
+#### Frontend (S3 + CloudFront)
+```
+S3 Bucket: g2-pre-games-frontend
+- Location: us-east-1
+- Public Access: CloudFront only
+- Versioning: Enabled
+
+CloudFront Distribution: E2SSUB36GW6E6B
+- Type: Static file delivery
+- Origin: S3 bucket
+- Custom Domain: pre.g.sedaily.ai
+- SSL: ACM Certificate (AWS managed)
+- Default TTL: 86400 (1일)
+```
+
+#### Backend (Lambda + Bedrock)
+```
+Lambda Function: sedaily-chatbot-dev-handler
+- Runtime: Python 3.11
+- Memory: 1024 MB
+- Timeout: 60 seconds
+- Region: ap-northeast-2
+
+Bedrock Model: Claude 3 Sonnet
+- Region: ap-northeast-2
+```
+
+#### API Gateway
+```
+Stage: prod
+Endpoint: https://zetqmdpbc1.execute-api.us-east-1.amazonaws.com/prod/chat
+```
+
+## 배포 방법
+
+### 자동 배포 스크립트
+
+#### 빠른 배포 (Frontend만)
+```bash
+pnpm quick-deploy
+```
+
+#### 전체 배포 (Frontend + Backend)
+```bash
+pnpm full-deploy
+```
+
+### 수동 배포
+
+```bash
+# Step 1: 빌드
+rm -rf .next out
+pnpm run build:export
+
+# Step 2: S3 업로드
+aws s3 sync ./out s3://g2-pre-games-frontend \
+  --delete --exclude '*.txt'
+
+# Step 3: CloudFront 무효화
+aws cloudfront create-invalidation \
+  --distribution-id E2SSUB36GW6E6B \
+  --paths "/*"
+```
+
+## 빌드 결과
+
+### 정적 파일 생성 (out/)
+```
+Total Size: 10.6 MB
+- Images: ~9 MB (WebP optimized)
+- HTML/CSS/JS: ~1.6 MB
+
+Pages Generated: 28
+First Load JS: 101-166 kB
+```
+
+## 환경 변수
+
+### .env.backup (Git tracked)
+```env
+NEXT_PUBLIC_CHATBOT_API_URL=https://zetqmdpbc1.execute-api.us-east-1.amazonaws.com/prod/chat
+BIGKINDS_API_KEY=<api-key>
+```
+
+## 기술 스택 변경사항 (2025-11-15)
+
+### 개선사항
+- ✅ 이미지 최적화: WebP 92% 크기 감소
+- ✅ 빌드 설정: image-loader.js (정적 export)
+- ✅ GameLoadingScreen: 새 로딩 컴포넌트
+- ✅ 이모지 제거: 콘솔 출력 정리
+- ✅ CloudFront 마이그레이션: E2SSUB36GW6E6B
+
+### 파일 변경
+```
+next.config.mjs:
+  - images.loader, loaderFile 제거
+  - unoptimized: true로 설정
+
+lib/image-loader.ts → lib/image-loader.js:
+  - TypeScript → JavaScript 변환
+  - 정적 export 모드 호환성
+
+components/ui/GameLoadingScreen.tsx:
+  - 새로운 로딩 화면 컴포넌트
+```
+
+## 모니터링
+
+### CloudFront 모니터링
+```bash
+aws cloudfront get-distribution --id E2SSUB36GW6E6B
+aws cloudfront list-invalidations --distribution-id E2SSUB36GW6E6B
+```
+
+### Lambda 로그
+```bash
+aws logs tail /aws/lambda/sedaily-chatbot-dev-handler --follow
+```
+
+### S3 모니터링
+```bash
+aws s3 ls s3://g2-pre-games-frontend --recursive --summarize
+```
+
+## 성능 최적화
+
+### 이미지 최적화
+- **Format**: WebP
+- **Quality**: 85
+- **Size Reduction**: 92%
+
+### 캐싱 전략
+```
+/: 1일
+/games/*: 1일
+/images/*: 30일
+/api/*: 1시간
+```
+
+## 트러블슈팅
+
+### CloudFront 캐시 무효화
+```bash
+aws cloudfront create-invalidation \
+  --distribution-id E2SSUB36GW6E6B \
+  --paths "/*"
+```
+
+### 크리덴셜 확인
+```bash
+aws sts get-caller-identity
+# Account: 887078546492
+# User: ai_nova
+```
      ↓ 실패  
 게임별 폴백 응답
 ```

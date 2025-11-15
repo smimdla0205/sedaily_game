@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle2, XCircle, Lightbulb, ExternalLink } from "lucide-react"
 import type { Question } from "@/lib/games-data"
 import { NewsHeaderBlock } from "./NewsHeaderBlock"
+import { AIChatbot } from "./AIChatbot"
 
 type QuizPlayerProps = {
   questions: Question[]
@@ -240,8 +241,8 @@ export function UniversalQuizPlayer({
 
   if (questionStates.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto">
-        <div className={`${themeStyles.paperBg} border ${themeStyles.hairline} p-8 text-center rounded-2xl shadow-sm`}>
+      <div className="max-w-3xl mx-auto px-3 md:px-4">
+        <div className={`${themeStyles.paperBg} border ${themeStyles.hairline} p-6 md:p-8 text-center rounded-2xl shadow-sm`}>
           <p className={`${themeStyles.inkColor}`}>퀴즈를 불러오는 중...</p>
         </div>
       </div>
@@ -250,12 +251,12 @@ export function UniversalQuizPlayer({
 
   return (
     <div
-      className="max-w-3xl mx-auto"
+      className="max-w-3xl mx-auto px-3 md:px-4"
       style={{
-        padding: "2rem 0",
+        padding: "1rem 0.75rem",
       }}
     >
-      <div className="space-y-12">
+      <div className="space-y-8 md:space-y-12">
         {questions.map((question, questionIndex) => {
           const state = questionStates[questionIndex]
           if (!state) return null
@@ -341,7 +342,7 @@ export function UniversalQuizPlayer({
                       >
                         <div className="flex items-start gap-3">
                           <span
-                            className="shrink-0 w-7 h-7 border-2 flex items-center justify-center text-sm font-bold rounded-sm"
+                            className="flex-shrink-0 w-7 h-7 border-2 flex items-center justify-center text-sm font-bold rounded-sm"
                             style={{
                               color: showResult && isCorrectOption ? "#FFFFFF" : accent.hex,
                               borderColor: accent.hex,
@@ -358,7 +359,7 @@ export function UniversalQuizPlayer({
                           </span>
                           {showResult && isCorrectOption && (
                             <CheckCircle2
-                              className="shrink-0 h-5 w-5"
+                              className="flex-shrink-0 h-5 w-5"
                               style={{ color: themeStyles.accentColor }}
                             />
                           )}
@@ -414,7 +415,7 @@ export function UniversalQuizPlayer({
                     >
                       <div className="flex gap-2">
                         <Lightbulb
-                          className="h-5 w-5 shrink-0 mt-0.5"
+                          className="h-5 w-5 flex-shrink-0 mt-0.5"
                           style={{ color: themeStyles.accentColor }}
                         />
                         <div>
@@ -443,11 +444,11 @@ export function UniversalQuizPlayer({
                       <div className="flex gap-2">
                         {state.isCorrect ? (
                           <CheckCircle2
-                            className="h-5 w-5 shrink-0 mt-0.5"
+                            className="h-5 w-5 flex-shrink-0 mt-0.5"
                             style={{ color: themeStyles.accentColor }}
                           />
                         ) : (
-                          <XCircle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+                          <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
                         )}
                         <div className="flex-1">
                           <p className={`font-normal text-xs uppercase tracking-wide mb-1 ${themeStyles.inkColor}`}>
@@ -465,23 +466,36 @@ export function UniversalQuizPlayer({
                 </div>
               )}
 
+              {/* RAG 기반 AI 챗봇 */}
+              <div className="pt-4">
+                <AIChatbot
+                  gameType={gameType}
+                  questionIndex={questionIndex}
+                  questionText={question.question}
+                  isAnswered={state.isAnswered}
+                  quizArticleUrl={question.newsLink}  // RAG: 퀴즈 기사 URL 전달
+                />
+              </div>
+
               {state.isAnswered && (
-                <div
-                  className={`p-4 border-l-4 rounded-lg ${themeStyles.explanationBg} border ${themeStyles.explanationAccent} mt-4`}
-                  style={{
-                    backgroundColor: gameType === "PrisonersDilemma" ? "transparent" : undefined,
-                    borderLeftColor: accent.hex,
-                    borderColor: "rgba(0,0,0,0.08)",
-                  }}
-                >
-                  <div className="space-y-2">
-                    <p className={`font-normal text-xs uppercase tracking-wide ${themeStyles.inkColor}`}>해설</p>
-                    <p
-                      className={`text-[15px] md:text-base ${themeStyles.inkColor}`}
-                      style={{ lineHeight: "1.7", fontWeight: 400 }}
-                    >
-                      {question.explanation}
-                    </p>
+                <div className="space-y-4 mt-4">
+                  <div
+                    className={`p-4 border-l-4 rounded-lg ${themeStyles.explanationBg} border ${themeStyles.explanationAccent}`}
+                    style={{
+                      backgroundColor: gameType === "PrisonersDilemma" ? "transparent" : undefined,
+                      borderLeftColor: accent.hex,
+                      borderColor: "rgba(0,0,0,0.08)",
+                    }}
+                  >
+                    <div className="space-y-2">
+                      <p className={`font-normal text-xs uppercase tracking-wide ${themeStyles.inkColor}`}>해설</p>
+                      <p
+                        className={`text-[15px] md:text-base ${themeStyles.inkColor}`}
+                        style={{ lineHeight: "1.7", fontWeight: 400 }}
+                      >
+                        {question.explanation}
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}

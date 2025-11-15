@@ -61,6 +61,21 @@ export const GAMES: GameMeta[] = [
     isNew: true,
     playUrl: "/games/g3/play", // Custom play URL for Signal Decoding
   },
+  // {
+  //   id: "g4",
+  //   slug: "/games/g4",
+  //   title: "카드 매칭",
+  //   subtitle: "경제 용어 매칭 게임",
+  //   description: "Quizlet 스타일의 경제 용어와 정의를 매칭하는 카드 게임",
+  //   color: "#8B5CF6",
+  //   bgColor: "from-purple-600 to-indigo-700",
+  //   icon: "🃏",
+  //   status: "active",
+  //   image: "/images/g4-cards.webp",
+  //   solidBgColor: "#8B5CF6",
+  //   isNew: true,
+  //   playUrl: "/games/g4", // Direct URL for Card Matching
+  // },
 ]
 
 export function getGameById(id: string): GameMeta | undefined {
@@ -126,8 +141,17 @@ async function loadQuizData(): Promise<QuizDataStructure> {
     const data = await fetchQuizData()
     cachedTypedQuizData = data
     
+    console.log("[v0] Quiz data loaded:", {
+      hasData: !!data,
+      gameTypes: Object.keys(data || {}),
+      blackSwanDates: Object.keys(data?.BlackSwan || {}),
+      prisonersDilemmaDates: Object.keys(data?.PrisonersDilemma || {}),
+      signalDecodingDates: Object.keys(data?.SignalDecoding || {}),
+    })
+    
     return data
-  } catch {
+  } catch (error) {
+    console.error("[v0] Failed to load quiz data:", error)
     return {
       BlackSwan: {},
       PrisonersDilemma: {},
@@ -142,14 +166,18 @@ async function loadQuizData(): Promise<QuizDataStructure> {
 export async function getQuestionsForDate(gameType: GameType, date: string): Promise<Question[]> {
   try {
     const data = await loadQuizData()
+    console.log(`[v0] Getting questions for ${gameType} on ${date}`)
 
     if (!data || !data[gameType]) {
+      console.error(`[v0] No data found for game type: ${gameType}`)
       return []
     }
 
     const questions = data[gameType]?.[date] || []
+    console.log(`[v0] Found ${questions.length} questions for ${gameType} on ${date}`)
     return questions
-  } catch {
+  } catch (error) {
+    console.error(`[v0] Error loading questions for ${gameType} on ${date}:`, error)
     return []
   }
 }
@@ -160,15 +188,19 @@ export async function getQuestionsForDate(gameType: GameType, date: string): Pro
 export async function getAvailableDates(gameType: GameType): Promise<string[]> {
   try {
     const data = await loadQuizData()
+    console.log(`[v0] Getting available dates for ${gameType}`)
 
     if (!data || !data[gameType]) {
+      console.error(`[v0] No data found for game type: ${gameType}`)
       return []
     }
 
     const dates = Object.keys(data[gameType] || {})
+    console.log(`[v0] Found ${dates.length} dates for ${gameType}:`, dates)
     // Sort dates in descending order (newest first)
     return dates.sort((a, b) => b.localeCompare(a))
-  } catch {
+  } catch (error) {
+    console.error(`[v0] Error loading dates for ${gameType}:`, error)
     return []
   }
 }
@@ -241,6 +273,7 @@ export async function hasQuestionsForDate(gameType: GameType, date: string): Pro
 export async function getMostRecentDate(gameType: GameType): Promise<string | null> {
   const dates = await getAvailableDates(gameType)
   const mostRecent = dates.length > 0 ? dates[0] : null
+  console.log(`[v0] Most recent date for ${gameType}:`, mostRecent)
   return mostRecent
 }
 

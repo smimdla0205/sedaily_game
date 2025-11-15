@@ -59,10 +59,14 @@ function transformAPIResponse(apiData: APIQuizItem[]): QuizDataStructure {
 export async function fetchQuizData(): Promise<QuizDataStructure> {
   // 캐시 체크
   if (cachedQuizData && cacheTimestamp && Date.now() - cacheTimestamp < CACHE_DURATION) {
+    console.log("[v0] Using cached quiz data")
     return cachedQuizData
   }
 
   try {
+    console.log("[v0] Fetching quiz data from AWS Lambda API...")
+    console.log("[v0] API Endpoint:", API_ENDPOINT)
+    
     const response = await fetch(API_ENDPOINT, {
       method: "GET",
       headers: {
@@ -70,9 +74,12 @@ export async function fetchQuizData(): Promise<QuizDataStructure> {
       },
       cache: "no-store", // 캐시 비활성화
     })
+
+    console.log("[v0] Response status:", response.status)
     
     if (!response.ok) {
       const errorText = await response.text()
+      console.error("[v0] API Error:", response.status, errorText)
       throw new Error(`API request failed with status ${response.status}: ${errorText}`)
     }
 
@@ -95,14 +102,19 @@ export async function fetchQuizData(): Promise<QuizDataStructure> {
     cachedQuizData = quizData
     cacheTimestamp = Date.now()
 
+    console.log("[v0] Quiz data fetched successfully from API")
     return quizData
-  } catch {
+  } catch (error) {
+    console.error("[v0] Error fetching quiz data from API:", error)
+    
     // 캐시된 데이터가 있으면 사용
     if (cachedQuizData) {
+      console.log("[v0] Using stale cached data due to API error")
       return cachedQuizData
     }
     
     // fallback: 빈 구조 반환
+    console.warn("[v0] Returning empty quiz data structure")
     return {
       BlackSwan: {},
       PrisonersDilemma: {},
@@ -117,4 +129,5 @@ export async function fetchQuizData(): Promise<QuizDataStructure> {
 export function clearQuizDataCache(): void {
   cachedQuizData = null
   cacheTimestamp = null
+  console.log("[v0] Quiz data cache cleared")
 }

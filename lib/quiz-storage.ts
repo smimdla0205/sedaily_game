@@ -36,8 +36,8 @@ export function saveQuizProgress(date: string, score: number): void {
       timestamp: Date.now(),
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
-  } catch {
-    // Failed to save quiz progress - silent fail
+  } catch (error) {
+    console.error("[v0] Failed to save quiz progress:", error)
   }
 }
 

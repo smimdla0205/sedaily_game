@@ -8,7 +8,7 @@ const originalConfig = 'next.config.mjs';
 const exportConfig = 'next.config.export.mjs';
 const backupConfig = 'next.config.mjs.backup';
 
-// Function to delete .txt files recursively
+// Function to delete only specific .txt files (keep robots.txt and all RSC files)
 function deleteTxtFiles(dir) {
   if (!fs.existsSync(dir)) return;
   
@@ -17,7 +17,10 @@ function deleteTxtFiles(dir) {
     const fullPath = path.join(dir, file.name);
     if (file.isDirectory()) {
       deleteTxtFiles(fullPath);
-    } else if (file.name.endsWith('.txt')) {
+    } else if (file.name.endsWith('.txt') && 
+               file.name !== 'robots.txt' && 
+               file.name !== 'index.txt') {
+      // Only delete specific .txt files, not robots.txt or index.txt
       fs.unlinkSync(fullPath);
       console.log(`🗑️  Deleted: ${fullPath}`);
     }
@@ -37,8 +40,8 @@ try {
   console.log('📦 Running next build...');
   execSync('next build', { stdio: 'inherit' });
 
-  // Delete .txt files after build
-  console.log('🧹 Cleaning up .txt files...');
+  // Keep all RSC-related files (index.txt) and robots.txt
+  console.log('🧹 Cleaning up specific .txt files (keeping RSC files)...');
   deleteTxtFiles('./out');
 
   console.log('✅ Static export build complete! Check the /out folder.');

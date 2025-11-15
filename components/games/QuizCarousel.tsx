@@ -458,6 +458,9 @@ export function QuizCarousel({
                                       : `${themeStyles.hairline} hover:${themeStyles.correctBorder} bg-[#FAFAF9]`
                               } ${state.isAnswered ? "cursor-default" : "cursor-pointer"}`}
                               style={{ fontFamily: "var(--font-news-body)" }}
+                              role="option"
+                              aria-selected={isSelected}
+                              aria-label={`선택지 ${String.fromCharCode(65 + idx)}: ${option}`}
                             >
                               <div className="flex items-start gap-3">
                                 <span

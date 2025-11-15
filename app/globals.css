@@ -36,6 +36,16 @@
   --game-green: #10b981;
   --game-purple: #8b5cf6;
   --game-orange: #f97316;
+  /* 게임별 테마 색상 */
+  --game-g1-accent: #244961;
+  --game-g1-paper: #EDEDE9;
+  --game-g1-ink: #0F2233;
+  --game-g2-accent: #8B5E3C;
+  --game-g2-paper: #F5F1E6;
+  --game-g2-ink: #3B3128;
+  --game-g3-accent: #DB6B5E;
+  --game-g3-paper: #EDEDE9;
+  --game-g3-ink: #184E77;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);

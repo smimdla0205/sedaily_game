@@ -105,6 +105,19 @@
   /* Unified newspaper theme tokens - all cards use #EDEDE9 */
   --hair: #c9c2b0;
 
+  /* 새로운 색상 변수 정의 - 뉴스프린트 톤 */
+  --page-bg: #F7F1E9; /* 전체 페이지 배경 */
+  --game-card-bg: #FFFDF8; /* 카드 내부 배경 */
+  --game-halo-bg: #E2F4EE; /* 공통 하이라이트 원 */
+  
+  /* 카드 디자인 토큰 */
+  --card-radius: 1rem; /* 16px */
+  --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.12);
+  --card-border-width: 1px;
+  --card-padding: 2rem; /* 32px */
+  --card-padding-sm: 1.5rem; /* 24px */
+
   /* BlackSwan (gray newsprint) */
   --bs-canvas-top: #f0f1f3;
   --bs-canvas-bot: #e6e7e9;
@@ -223,6 +236,7 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* texture.png를 메인 배경으로 */
     background-image: url("/bg/texture.png");
     background-size: cover;
     background-repeat: no-repeat;
@@ -230,12 +244,35 @@
     background-position: center;
     position: relative;
   }
+  /* 노이즈 텍스쳐: 투명도와 블러 조정으로 더 자연스럽게 */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background: url("/bg/texture.png") center / cover no-repeat fixed;
-    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    filter: blur(0.3px);
+  }
+  /* 원형 하이라이트는 유지 (카드 영역 강조) */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 90vw;
+    height: 65vh;
+    max-width: 1400px;
+    max-height: 900px;
+    transform: translate(-50%, -45%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 50% 45%,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.2) 40%,
+      rgba(255, 255, 255, 0) 70%
+    );
     pointer-events: none;
     z-index: 0;
   }
@@ -267,6 +304,36 @@
     font-family: var(--font-sans);
     line-height: 1.6;
   }
+  
+  /* 히어로 뒤쪽 반투명 박스 없애기 */
+  section.container .grid > div:first-child > div.relative > span {
+    background-color: transparent !important;
+    filter: none !important;
+    display: none;
+  }
+  
+  /* 게임 카드 표면/테두리/그림자 통일 */
+  .game-card {
+    /* background-color는 인라인 스타일(game.solidBgColor) 사용 */
+    border-width: var(--card-border-width) !important;
+    border-style: solid !important;
+    border-radius: var(--card-radius) !important;
+    /* border-color는 인라인 스타일(game.color) 사용 */
+    box-shadow: var(--card-shadow) !important;
+    padding: var(--card-padding-sm) !important;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  @media (min-width: 768px) {
+    .game-card {
+      padding: var(--card-padding) !important;
+    }
+  }
+  
+  .game-card:hover {
+    box-shadow: var(--card-shadow-hover) !important;
+  }
+  
   .game-card h3 {
     font-family: var(--font-title);
     font-weight: 600;
@@ -274,6 +341,24 @@
   .game-card p {
     font-family: var(--font-sans);
   }
+  
+  /* 공룡 뒤의 하이라이트 원 통일 */
+  .game-card .aspect-4\/3 > .absolute.rounded-full.opacity-12 {
+    background-color: var(--game-halo-bg) !important;
+    opacity: 1 !important;
+  }
+  
+  /* NEW 배지 배경색 조정 */
+  .game-card span.absolute {
+    background-color: var(--game-card-bg) !important;
+  }
+  
+  /* Archive 링크 색상 상속 */
+  .game-card a[aria-label*="archive"],
+  .game-card a[href$="archive"] {
+    color: inherit !important;
+  }
+  
   *:focus-visible {
     @apply outline-2 outline-offset-2 outline-ring;
   }

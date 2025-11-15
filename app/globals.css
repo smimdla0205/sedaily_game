@@ -233,7 +233,7 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background-image: url("/bg/texture.png");
+    background-image: url("/bg/texture.webp");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -244,7 +244,7 @@
     content: "";
     position: fixed;
     inset: 0;
-    background: url("/bg/texture.png") center / cover no-repeat fixed;
+    background: url("/bg/texture.webp") center / cover no-repeat fixed;
     opacity: 0.15;
     pointer-events: none;
     z-index: 0;

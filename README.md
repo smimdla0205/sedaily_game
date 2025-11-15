@@ -425,4 +425,3 @@ Domain: g2.sedaily.ai
 
 ---
 
-**Made with ❤️ by Seoul Economic Daily**

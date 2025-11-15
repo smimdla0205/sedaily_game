@@ -14,7 +14,6 @@ type Message = {
 
 type AIChatbotProps = {
   gameType: "BlackSwan" | "PrisonersDilemma" | "SignalDecoding"
-  questionIndex: number
   questionText: string
   isAnswered: boolean
   quizArticleUrl?: string  // RAG: 퀴즈 관련 기사 URL
@@ -53,7 +52,7 @@ const THEME_STYLES = {
   },
 } as const
 
-export function AIChatbot({ gameType, questionIndex, questionText, isAnswered, quizArticleUrl }: AIChatbotProps) {
+export function AIChatbot({ gameType, questionText, quizArticleUrl }: AIChatbotProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState("")
@@ -112,6 +111,7 @@ export function AIChatbot({ gameType, questionIndex, questionText, isAnswered, q
       setMessages(prev => [...prev, aiMessage])
       
     } catch (error) {
+      console.error("[v0] Chatbot error:", error)
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: "죄송합니다. 현재 서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.",
@@ -197,7 +197,7 @@ export function AIChatbot({ gameType, questionIndex, questionText, isAnswered, q
                 <div className="flex items-start gap-2 max-w-[80%]">
                   {message.sender === "ai" && (
                     <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                      className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
                       style={{ backgroundColor: theme.accentColor }}
                     >
                       <Bot className="h-4 w-4 text-white" />
@@ -216,7 +216,7 @@ export function AIChatbot({ gameType, questionIndex, questionText, isAnswered, q
 
                   {message.sender === "user" && (
                     <div 
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                      className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
                       style={{ backgroundColor: theme.accentColor }}
                     >
                       <User className="h-4 w-4 text-white" />
@@ -230,7 +230,7 @@ export function AIChatbot({ gameType, questionIndex, questionText, isAnswered, q
               <div className="flex justify-start">
                 <div className="flex items-start gap-2">
                   <div 
-                    className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                    className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
                     style={{ backgroundColor: theme.accentColor }}
                   >
                     <Bot className="h-4 w-4 text-white" />
@@ -258,8 +258,8 @@ export function AIChatbot({ gameType, questionIndex, questionText, isAnswered, q
                 disabled={isLoading}
                 className={`flex-1 px-3 py-2 rounded-lg border text-sm ${theme.inputBg} ${theme.inkColor} focus:outline-none focus:ring-2 focus:ring-opacity-50`}
                 style={{ 
-                  focusRingColor: theme.accentColor,
-                  borderColor: theme.accentColor.replace('#', '') + '40'
+                  borderColor: theme.accentColor,
+                  outlineColor: theme.accentColor
                 }}
               />
               <Button

@@ -1,11 +1,11 @@
-# 커스텀 도메인 설정 (g2-clone.ai)
+# 커스텀 도메인 설정 (pre.g.sedaily.ai)
 
 ## 📋 도메인 정보
 
-- **도메인**: `g2-clone.ai`
+- **도메인**: `pre.g.sedaily.ai`
 - **SSL 인증서 ID**: `9c87fd8a-3506-4a55-86dc-03bfeb6b22d8`
-- **CloudFront Distribution**: `E1C1UNHJ75JZMZ`
-- **현재 도메인**: `d37wz4zxwakwl0.cloudfront.net`
+- **CloudFront Distribution**: `E2SSUB36GW6E6B`
+- **현재 도메인**: `https://pre.g.sedaily.ai`
 
 ## 🔧 설정 단계
 
@@ -32,11 +32,11 @@ aws route53 change-resource-record-sets --hosted-zone-id YOUR_ZONE_ID --change-b
 ```bash
 # 커스텀 도메인 추가
 aws cloudfront update-distribution \
-  --id E1C1UNHJ75JZMZ \
+  --id E2SSUB36GW6E6B \
   --distribution-config '{
     "Aliases": {
       "Quantity": 1,
-      "Items": ["g2-clone.ai"]
+      "Items": ["pre.g.sedaily.ai"]
     },
     "ViewerCertificate": {
       "ACMCertificateArn": "arn:aws:acm:us-east-1:ACCOUNT:certificate/9c87fd8a-3506-4a55-86dc-03bfeb6b22d8",
@@ -55,17 +55,17 @@ aws cloudfront update-distribution \
 
 1. **DNS 전파 확인**:
    ```bash
-   nslookup g2-clone.ai
+   nslookup pre.g.sedaily.ai
    ```
 
 2. **SSL 인증서 확인**:
    ```bash
-   curl -I https://g2-clone.ai
+   curl -I https://pre.g.sedaily.ai
    ```
 
 3. **CloudFront 상태 확인**:
    ```bash
-   aws cloudfront get-distribution --id E1C1UNHJ75JZMZ
+   aws cloudfront get-distribution --id E2SSUB36GW6E6B
    ```
 
 ## 📝 참고사항

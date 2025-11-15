@@ -1,8 +1,8 @@
-# g2-clone.ai 커스텀 도메인 설정 가이드
+# pre.g.sedaily.ai 커스텀 도메인 설정 가이드
 
 ## 📋 현재 상태
-- CloudFront 배포 ID: `E1C1UNHJ75JZMZ`
-- 기본 도메인: `https://d37wz4zxwakwl0.cloudfront.net`
+- CloudFront 배포 ID: `E2SSUB36GW6E6B`
+- 기본 도메인: `https://pre.g.sedaily.ai`
 - 인증서 ARN: `arn:aws:acm:us-east-1:887078546492:certificate/dfc2dd1b-7ff1-46d8-b0ce-e3abf542477e`
 
 ## 🔧 DNS 검증 단계
@@ -16,15 +16,15 @@ aws acm describe-certificate \
 ```
 
 ### 2. 도메인 DNS 설정
-- `g2-clone.ai` 도메인의 DNS 관리 패널에 접속
+- `pre.g.sedaily.ai` 도메인의 DNS 관리 패널에 접속
 - ACM에서 제공하는 CNAME 레코드 추가:
-  - Name: `_xxxxx.g2-clone.ai`
+  - Name: `_xxxxx.pre.g.sedaily.ai`
   - Value: `_xxxxx.acm-validations.aws.`
 
 ### 3. 인증서 검증 완료 확인
 ```bash
 aws acm list-certificates --region us-east-1 \
-  --query 'CertificateSummaryList[?DomainName==`g2-clone.ai` && Status==`ISSUED`]'
+  --query 'CertificateSummaryList[?DomainName==`pre.g.sedaily.ai` && Status==`ISSUED`]'
 ```
 
 ## 🚀 CloudFront 커스텀 도메인 적용
@@ -35,7 +35,7 @@ aws acm list-certificates --region us-east-1 \
 ```bash
 # cloudfront-custom-domain.json 파일 사용
 aws cloudfront update-distribution \
-  --id E1C1UNHJ75JZMZ \
+  --id E2SSUB36GW6E6B \
   --distribution-config file://cloudfront-custom-domain.json \
   --if-match E1Y4OZHIWJYGXK
 ```
@@ -43,8 +43,8 @@ aws cloudfront update-distribution \
 2. **DNS A 레코드 추가**
 도메인 DNS 설정에서:
 - Type: `A` (또는 `ALIAS`)
-- Name: `g2-clone.ai`
-- Value: `d37wz4zxwakwl0.cloudfront.net`
+- Name: `pre.g.sedaily.ai`
+- Value: CloudFront 도메인
 
 ## 📁 준비된 파일
 - `cloudfront-custom-domain.json`: 커스텀 도메인 적용용 CloudFront 설정

@@ -20,7 +20,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false, // CloudFront에서 ETag 처리
-  swcMinify: true, // SWC 기반 minification
   // 실험적 기능
   experimental: {
     optimizePackageImports: [

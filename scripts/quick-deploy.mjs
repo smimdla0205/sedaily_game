@@ -2,8 +2,8 @@
 
 import { execSync } from 'child_process';
 
-const BUCKET_NAME = 'g2-frontend-ver2';
-const CLOUDFRONT_ID = 'E1C1UNHJ75JZMZ';
+const BUCKET_NAME = 'g2-pre-games-frontend';
+const CLOUDFRONT_ID = 'E2SSUB36GW6E6B';
 
 console.log('⚡ Quick Deploy Started...\n');
 
@@ -21,8 +21,8 @@ try {
   execSync(`aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"`, { stdio: 'inherit' });
   
   console.log('\n🎉 Quick Deploy Complete!');
-  console.log(`🌐 Live at: https://d37wz4zxwakwl0.cloudfront.net`);
-  console.log(`🔗 Custom Domain: https://g2-clone.ai (setup pending)`);
+  console.log(`🌐 Live at: https://pre.g.sedaily.ai`);
+  console.log(`📦 Bucket: ${BUCKET_NAME}`);
   
 } catch (error) {
   console.error('❌ Deploy failed:', error.message);

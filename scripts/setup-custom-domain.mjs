@@ -2,8 +2,8 @@
 
 import { execSync } from 'child_process';
 
-const CLOUDFRONT_ID = 'E1C1UNHJ75JZMZ';
-const CUSTOM_DOMAIN = 'g2-clone.ai';
+const CLOUDFRONT_ID = 'E2SSUB36GW6E6B';
+const CUSTOM_DOMAIN = 'pre.g.sedaily.ai';
 const CERTIFICATE_ARN = 'arn:aws:acm:us-east-1:887078546492:certificate/007d551e-b0b6-4453-9076-b2b2090a2ff2';
 
 console.log('🔧 Setting up custom domain for CloudFront...\n');
@@ -53,7 +53,7 @@ try {
   
   console.log('\\n🎉 Custom domain setup initiated!');
   console.log('📋 Next steps:');
-  console.log(`1. Add CNAME record: ${CUSTOM_DOMAIN} -> d37wz4zxwakwl0.cloudfront.net`);
+  console.log(`1. Add CNAME record: ${CUSTOM_DOMAIN} -> CloudFront domain`);
   console.log('2. Wait for CloudFront deployment to complete (5-15 minutes)');
   console.log(`3. Test: https://${CUSTOM_DOMAIN}`);
   

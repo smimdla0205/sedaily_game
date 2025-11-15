@@ -1,14 +1,12 @@
 import { Loader2 } from "lucide-react"
+import { StatePage } from "@/components/layout/StatePage"
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-linear-to-b from-sky-50 to-white">
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-12 w-12 animate-spin text-[#3B82F6]" aria-hidden="true" />
-          <p className="text-lg text-muted-foreground korean-text">로딩 중...</p>
-        </div>
-      </div>
-    </div>
+    <StatePage
+      icon={<Loader2 className="h-8 w-8 text-blue-600 animate-spin" aria-hidden="true" />}
+      title="로딩 중..."
+      description="페이지를 준비하고 있습니다."
+    />
   )
 }

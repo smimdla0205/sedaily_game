@@ -162,14 +162,6 @@ sedaily-games/
 ├── styles/                # 전역 스타일
 │   └── globals.css       # Tailwind CSS 설정
 │
-├── out/                   # 정적 빌드 결과 (배포용)
-│   ├── index.html
-│   ├── games/
-│   ├── admin/
-│   ├── api/
-│   ├── images/
-│   ├── icons/
-│   └── ...
 │
 ├── .env.backup           # 환경 변수 백업 (Git 추적)
 ├── .gitignore            # Git 무시 파일
@@ -182,15 +174,6 @@ sedaily-games/
 ├── pnpm-lock.yaml        # pnpm 잠금 파일
 ├── README.md             # 이 파일
 └── components.json       # shadcn/ui 설정
-```
-│   ├── ui/              # Radix UI 기반 컴포넌트 (25개+)
-│   └── navigation/       # 헤더, 푸터
-├── lib/                  # 유틸리티 라이브러리
-│   ├── quiz-api-client.ts  # AWS Lambda API 클라이언트
-│   ├── quiz-storage.ts     # localStorage 상태 관리
-│   ├── games-data.ts       # 게임 메타데이터 + 데이터 로딩
-│   ├── chatbot-api.ts      # 챗봇 API 클라이언트
-│   └── date-utils.ts       # 날짜 유틸리티
 ├── backend/              # Python Lambda (Serverless)
 │   ├── lambda/
 │   │   └── enhanced-chatbot-handler.py  # RAG 기반 Claude 챗봇
@@ -407,9 +390,8 @@ CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 
 ## 🔗 링크
 
-- 🌐 **Live**: https://g2.sedaily.ai
-- 📱 **GitHub**: https://github.com/sedaily/g2-clone
-- � **BigKinds API**: https://www.bigkinds.or.kr
+- 🌐 **Live**:[ https://g2.sedaily.ai](https://pre.g.sedaily.ai/)
+- 📱 **GitHub**: [https://github.com/sedaily/g2-clone](https://github.com/smimdla0205/sedaily_game)
 
 ## � 기술 스택 요약
 

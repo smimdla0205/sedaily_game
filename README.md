@@ -189,7 +189,6 @@ sedaily-games/
 │   ├── backgrounds/     # 게임별 배경 이미지
 │   ├── icons/          # 게임 아이콘 (woodcut 스타일)
 │   └── images/         # 로고 및 기타 이미지
-├── types/               # TypeScript 타입 정의
 └── out/                 # 정적 빌드 결과 (배포용)
 ```
 

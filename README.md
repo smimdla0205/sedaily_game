@@ -387,11 +387,6 @@ CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 - **SSG 라우트**: 12개 (날짜별 퀴즈)
 - **캐싱**: CloudFront + 5분 메모리 캐시
 
-## 🔗 링크
-
-- 🌐 **Live**:[ https://g2.sedaily.ai](https://pre.g.sedaily.ai/)
-- 📱 **GitHub**: [https://github.com/sedaily/g2-clone](https://github.com/smimdla0205/sedaily_game)
-
 ## � 기술 스택 요약
 
 ```

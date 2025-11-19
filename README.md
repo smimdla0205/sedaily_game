@@ -396,7 +396,6 @@ Carousel: Embla Carousel React 8.6.0
 Backend: AWS Lambda (Python 3.11)
 AI: Claude 3 Sonnet (AWS Bedrock)
 Hosting: CloudFront + S3
-Domain: g2.sedaily.ai
 ```
 
 ---

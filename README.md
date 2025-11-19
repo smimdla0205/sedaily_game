@@ -304,7 +304,6 @@ BIGKINDS_API_KEY=your-bigkinds-api-key
 -  이미지 최적화: WebP 변환으로 92% 크기 감소
 -  빌드 설정: image-loader.js (정적 export 지원)
 -  GameLoadingScreen: 새로운 로딩 컴포넌트 추가
--  이모지 제거: 콘솔 출력 및 코드 정리
 -  CloudFront 마이그레이션: 새 배포 ID 및 도메인
 
 ### 기술 개선

@@ -24,7 +24,6 @@
 
 ### Frontend
 - **Framework**: Next.js 15.2.4 (App Router)
-- **Build**: Static Export (완전 정적 사이트)
 - **Hosting**: AWS CloudFront + S3
 - **Domain**: https://pre.g.sedaily.ai
 - **Cache**: 이미지 WebP 최적화 (92% 크기 감소)
@@ -189,7 +188,7 @@ sedaily-games/
 │   ├── backgrounds/     # 게임별 배경 이미지
 │   ├── icons/          # 게임 아이콘 (woodcut 스타일)
 │   └── images/         # 로고 및 기타 이미지
-└── out/                 # 정적 빌드 결과 (배포용)
+└── out/                 # 빌드 결과 (배포용)
 ```
 
 ## 개발 및 배포
@@ -216,7 +215,7 @@ pnpm typecheck
 #### 빠른 배포 (Frontend만)
 ```bash
 pnpm quick-deploy
-# 1. 정적 빌드 (out/ 폴더)
+# 1. 빌드 (out/ 폴더)
 # 2. S3 업로드 (g2-pre-games-frontend)
 # 3. CloudFront 무효화
 # 완료: ~1-2분, 3-5분 후 반영
@@ -372,7 +371,6 @@ CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 - **QuizCarousel 통합**: UniversalQuizPlayer → QuizCarousel 전환
 - **Embla Carousel**: Fade 트랜지션 + 외부 화살표 네비게이션
 - **UX 개선**: 자동 진행, 키보드 단축키, 마지막 문제 액션 버튼
-- **빌드 최적화**: 29개 정적 페이지 생성 (101-166 kB First Load JS)
 
 ### 2025-11-10
 - **RAG Fallback**: BigKinds API 실패 시 순수 Claude 응답
@@ -380,7 +378,6 @@ CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 
 ## 📈 성능 지표
 
-- **빌드 결과**: 29개 정적 페이지
 - **First Load JS**: 101-166 kB
 - **SSG 라우트**: 12개 (날짜별 퀴즈)
 - **캐싱**: CloudFront + 5분 메모리 캐시

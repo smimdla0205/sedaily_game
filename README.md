@@ -317,7 +317,6 @@ BIGKINDS_API_KEY=your-bigkinds-api-key
 - **Status**: Production
 - **Domain**: https://pre.g.sedaily.ai
 - **Last Deploy**: 2025-11-15 18:58:52 UTC
-- **Build**: 28개 정적 페이지 (First Load JS: 101-166 kB)
 - **CloudFront**: InProgress (무효화 ID: IQ0DGDIPBVQF4Y7YVPG01WVZO)
 
 ### 이전 배포

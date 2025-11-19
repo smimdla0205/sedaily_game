@@ -22,7 +22,7 @@
 
 ## 아키텍처
 <img width="1098" height="749" alt="게임 아키택처" src="https://github.com/user-attachments/assets/12592281-b4b8-4e5f-b9b2-b40664b1af0d" />
-### Frontend
+## Frontend
 
 - **Framework**: Next.js 15.2.4 (App Router)
 - **Hosting**: AWS CloudFront + S3

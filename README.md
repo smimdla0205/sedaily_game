@@ -301,11 +301,11 @@ BIGKINDS_API_KEY=your-bigkinds-api-key
 ## 최근 변경사항 (2025-11-15)
 
 ### 개선사항
-- ✅ 이미지 최적화: WebP 변환으로 92% 크기 감소
-- ✅ 빌드 설정: image-loader.js (정적 export 지원)
-- ✅ GameLoadingScreen: 새로운 로딩 컴포넌트 추가
-- ✅ 이모지 제거: 콘솔 출력 및 코드 정리
-- ✅ CloudFront 마이그레이션: 새 배포 ID 및 도메인
+-  이미지 최적화: WebP 변환으로 92% 크기 감소
+-  빌드 설정: image-loader.js (정적 export 지원)
+-  GameLoadingScreen: 새로운 로딩 컴포넌트 추가
+-  이모지 제거: 콘솔 출력 및 코드 정리
+-  CloudFront 마이그레이션: 새 배포 ID 및 도메인
 
 ### 기술 개선
 - `next.config.mjs`: unoptimized 이미지 설정으로 로더 제거
@@ -347,7 +347,7 @@ NEXT_PUBLIC_CHATBOT_API_URL=lambda-api-url
 BIGKINDS_API_KEY=bigkinds-key
 ```
 
-## 🔄 GitHub Actions 설정
+##  GitHub Actions 설정
 
 자동 배포를 위해 Repository Settings → Secrets에 다음 값들을 추가하세요:
 
@@ -359,15 +359,15 @@ S3_BUCKET_NAME=g2-frontend-ver2
 CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 ```
 
-## 📊 프로젝트 현황
+##  프로젝트 현황
 
-- ✅ **Frontend**: 배포 완료 (Next.js 15.2.4)
-- ✅ **Backend**: Lambda 함수 운영 중 (`sedaily-chatbot-dev-handler`)
-- ✅ **RAG System**: BigKinds API + Claude 3 Sonnet 통합
-- ✅ **CI/CD**: GitHub Actions 자동 배포
-- ✅ **Monitoring**: CloudFront + Lambda 로그
+-  **Frontend**: 배포 완료 (Next.js 15.2.4)
+-  **Backend**: Lambda 함수 운영 중 (`sedaily-chatbot-dev-handler`)
+-  **RAG System**: BigKinds API + Claude 3 Sonnet 통합
+-  **CI/CD**: GitHub Actions 자동 배포
+-  **Monitoring**: CloudFront + Lambda 로그
 
-## 🚀 최근 업데이트
+##  최근 업데이트
 
 ### 2025-11-13
 - **QuizCarousel 통합**: UniversalQuizPlayer → QuizCarousel 전환
@@ -381,7 +381,6 @@ CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 ## 📈 성능 지표
 
 - **First Load JS**: 101-166 kB
-- **SSG 라우트**: 12개 (날짜별 퀴즈)
 - **캐싱**: CloudFront + 5분 메모리 캐시
 
 ## � 기술 스택 요약

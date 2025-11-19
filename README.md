@@ -369,16 +369,15 @@ CLOUDFRONT_DISTRIBUTION_ID=E1C1UNHJ75JZMZ
 
 ## 🚀 최근 업데이트
 
-### 2025-01-13
+### 2025-11-13
 - **QuizCarousel 통합**: UniversalQuizPlayer → QuizCarousel 전환
 - **Embla Carousel**: Fade 트랜지션 + 외부 화살표 네비게이션
 - **UX 개선**: 자동 진행, 키보드 단축키, 마지막 문제 액션 버튼
 - **빌드 최적화**: 29개 정적 페이지 생성 (101-166 kB First Load JS)
 
-### 2025-01-10
+### 2025-11-10
 - **RAG Fallback**: BigKinds API 실패 시 순수 Claude 응답
 - **Lambda 최적화**: Python 3.11, 1024MB, 60초 타임아웃
-- **도메인 설정**: g2.sedaily.ai 커스텀 도메인 연결
 
 ## 📈 성능 지표
 
